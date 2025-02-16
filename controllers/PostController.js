@@ -18,10 +18,17 @@ export const getLastTags = async (req, res) => {
 
 export const getAll = async (req, res) => {
   try {
-    const posts = await PostModel.find().populate('user').exec();
-    res.json(posts);
+    const posts = await PostModel.find().exec();
+    console.log('Posts retrieved:', posts); 
+
+    if (!posts.length) {
+      return res.status(404).json({ message: 'No articles found' });
+    }
+
+    const populatedPosts = await PostModel.populate(posts, 'user');
+    res.json(populatedPosts);
   } catch (err) {
-    console.error(err);
+    console.error('Error in getAll:', err); 
     res.status(500).json({ message: 'Unable to obtain articles' });
   }
 };
