@@ -83,8 +83,8 @@ app.patch(
   handleValidationErrors,
   PostController.update
 );
-
-app.listen(process.env.PORT || 3000, (err) => {
+const port = process.env.PORT || 3000;
+app.listen(port, (err) => {
   if (err) {
     return console.log(err);
   }
