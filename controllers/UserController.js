@@ -1,13 +1,13 @@
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 
 import UserModel from '../models/User.js';
 
 export const register = async (req, res) => {
   try {
     const password = req.body.password;
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(password, salt);
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
 
     const doc = new UserModel({
       email: req.body.email,
@@ -25,7 +25,7 @@ export const register = async (req, res) => {
       'secret123',
       {
         expiresIn: '30d',
-      }
+      },
     );
 
     const { passwordHash, ...userData } = user._doc;
@@ -52,10 +52,7 @@ export const login = async (req, res) => {
       });
     }
 
-    const isValidPass = bcrypt.compareSync(
-      req.body.password,
-      user._doc.passwordHash
-    );
+    const isValidPass = await bcrypt.compare(req.body.password, user._doc.passwordHash);
 
     if (!isValidPass) {
       return res.status(400).json({
@@ -70,7 +67,7 @@ export const login = async (req, res) => {
       'secret123',
       {
         expiresIn: '30d',
-      }
+      },
     );
 
     const { passwordHash, ...userData } = user._doc;

@@ -2,7 +2,9 @@ import express from 'express';
 import fs from 'fs';
 import multer from 'multer';
 import cors from 'cors';
+
 import mongoose from 'mongoose';
+mongoose.set('strictQuery', true);
 
 import {
   registerValidation,
@@ -13,8 +15,6 @@ import {
 import { handleValidationErrors, checkAuth } from './utils/index.js';
 
 import { UserController, PostController } from './controllers/index.js';
-
-mongoose.set('strictQuery', true);
 
 mongoose
   .connect(
@@ -83,8 +83,8 @@ app.patch(
   handleValidationErrors,
   PostController.update
 );
-const port = process.env.PORT || 3002;
-app.listen(port, (err) => {
+const post = process.env.PORT || 3000;
+app.listen(post, (err) => {
   if (err) {
     return console.log(err);
   }
