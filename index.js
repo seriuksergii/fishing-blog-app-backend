@@ -3,9 +3,6 @@ import fs from 'fs';
 import multer from 'multer';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 import {
   registerValidation,
@@ -20,7 +17,9 @@ import { UserController, PostController } from './controllers/index.js';
 mongoose.set('strictQuery', true);
 
 mongoose
-  .connect(process.env.MONGODB_URI)
+  .connect(
+    'mongodb+srv://admin:0987654321@cluster0.a8vbd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+  )
   .then(() => console.log('DB ok'))
   .catch((err) => console.log('DB error', err));
 
