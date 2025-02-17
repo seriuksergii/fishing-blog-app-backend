@@ -2,6 +2,9 @@ import express from 'express';
 import fs from 'fs';
 import multer from 'multer';
 import cors from 'cors';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 import mongoose from 'mongoose';
 mongoose.set('strictQuery', true);
@@ -17,9 +20,7 @@ import { handleValidationErrors, checkAuth } from './utils/index.js';
 import { UserController, PostController } from './controllers/index.js';
 
 mongoose
-  .connect(
-    'mongodb+srv://admin:0987654321@cluster0.a8vbd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
-  )
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log('DB ok'))
   .catch((err) => console.log('DB error', err));
 
